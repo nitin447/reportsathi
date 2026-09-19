@@ -59,3 +59,17 @@ class NarrativeReport(BaseModel):
     urgent_language: str | None = Field(
         default=None, description="Exact phrase if the report says urgent / immediate / critical. Otherwise null."
     )
+class KeyPoint(BaseModel):
+    name: str = Field(description="Test or finding name, exactly as given")
+    status: str = Field(description="low, high, normal, abnormal, or unclear, as given in the facts")
+    meaning: str = Field(description="1-2 simple sentences: what this measures and what this result can mean")
+
+
+class Explanation(BaseModel):
+    summary: str = Field(description="3-4 simple sentences: the overall picture")
+    key_points: list[KeyPoint] = Field(default_factory=list, description="Only abnormal or important items")
+    connect_the_dots: list[str] = Field(
+        default_factory=list,
+        description="Patterns across several results that are ALL present in the facts. Empty if none.",
+    )
+    questions_for_doctor: list[str] = Field(default_factory=list, description="4-6 useful questions to ask the doctor")
