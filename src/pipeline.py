@@ -20,7 +20,7 @@ def analyze(file_path: str, llm: LLMClient | None = None) -> AnalysisResult:
     checked = check_report(report)  # works when numbers are present (blood tests, ECG measurements)
 
     narrative = None
-    if report.report_type in NARRATIVE_TYPES or report.narrative_findings:
+    if report.report_type in NARRATIVE_TYPES:
         narrative = extract_narrative(file_path, llm)
 
     return AnalysisResult(report=report, checked_values=checked, narrative=narrative)

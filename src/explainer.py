@@ -35,7 +35,8 @@ def compute_urgency(result: AnalysisResult) -> tuple[str, str]:
 
     marked = [c.name for c in result.checked_values if c.severity == "marked"]
     if marked:
-        return "see_doctor_soon", "These results are far outside the report's printed range: " + ", ".join(marked)
+        return "see_doctor_soon", ("These results are well outside the report's printed range: "
+                                   + ", ".join(marked) + ". Worth discussing with your doctor soon.")
 
     abnormal_labs = [c for c in result.checked_values if c.status in ("low", "high")]
     abnormal_findings = [f for f in (n.findings if n else []) if f.significance == "abnormal"]
