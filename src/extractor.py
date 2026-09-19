@@ -17,7 +17,8 @@ Rules:
 - Set significance only from the report's own wording. If unclear, use 'unclear'.
 - Copy the impression exactly as printed.
 - recommendations_in_report must contain only advice actually printed in the report.
-- Fill urgent_language only if the report itself uses urgent/immediate/critical wording."""
+- Fill urgent_language only if the report itself uses urgent/immediate/critical wording.
+- Keep the report's hedging and cause wording (presumably, probably, likely, possibly, suggestive of, due to) inside each finding. Never drop it or shorten a finding so that it sounds more certain or less certain than the report."""
 
 
 def extract_report(file_path: str, llm: LLMClient | None = None) -> ExtractedReport:

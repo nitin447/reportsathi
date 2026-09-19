@@ -1,4 +1,6 @@
 import base64
+import os
+import tempfile
 
 from sarvamai import SarvamAI
 
@@ -51,3 +53,21 @@ def speak(text: str, language: str = "English", speaker: str = "ritu") -> bytes:
         speaker=speaker,
     )
     return base64.b64decode(response.audios[0])
+def transcribe(audio_bytes: bytes, language: str = "English") -> str:
+    """Speech to text. Returns the transcript."""
+    if not SARVAM_API_KEY:
+        raise ValueError("SARVAM_API_KEY missing. Add it to your .env file.")
+    code = LANG_CODES.get(language, "unknown")
+
+    with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as tmp:
+        tmp.write(audio_bytes)
+        path = tmp.name
+    try:
+        client = SarvamAI(api_subscription_key=SARVAM_API_KEY)
+        with open(path, "rb") as f:
+            response = client.speech_to_text.transcribe(
+                file=f, model="saaras:v3", mode="transcribe", language_code=code,
+            )
+    finally:
+        os.remove(path)
+    return response.transcript

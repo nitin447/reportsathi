@@ -1,3 +1,4 @@
+import hashlib
 import os
 import tempfile
 from pathlib import Path
@@ -5,9 +6,11 @@ from pathlib import Path
 import streamlit as st
 
 from src.explainer import explain
-from src.pdf_report import build_pdf, _range as range_text
+from src.pdf_report import _range as range_text
+from src.pdf_report import build_pdf
 from src.pipeline import analyze
-from src.voice import build_spoken_script, speak
+from src.qa import answer_question
+from src.voice import build_spoken_script, speak, transcribe
 
 st.set_page_config(page_title="ReportSathi", page_icon="🩺", layout="centered")
 
@@ -69,6 +72,7 @@ if out:
 
     st.subheader("Summary")
     st.write(e.summary)
+
     if st.button("Listen to this explanation"):
         try:
             with st.spinner("Creating audio..."):
@@ -94,10 +98,12 @@ if out:
         )
 
     if result.narrative:
-        st.subheader(result.narrative.modality)
-        for f in result.narrative.findings:
-            if f.significance in ("abnormal", "borderline"):
-                st.write(f"- **{f.body_part or 'Finding'}:** {f.finding}")
+        with st.expander(f"{result.narrative.modality}: what the report says (original wording)"):
+            for f in result.narrative.findings:
+                if f.significance in ("abnormal", "borderline"):
+                    st.write(f"- **{f.body_part or 'Finding'}:** {f.finding}")
+            if result.narrative.impression:
+                st.write("**Impression:** " + result.narrative.impression)
 
     if e.key_points:
         st.subheader("What this means")
@@ -112,6 +118,55 @@ if out:
     st.subheader("Questions to ask your doctor")
     for q in e.questions_for_doctor:
         st.write(f"- {q}")
+
+    st.divider()
+    st.subheader("Ask a question about this report")
+    out.setdefault("qa", [])
+
+    def handle_question(question):
+        try:
+            with st.spinner("Thinking..."):
+                answer = answer_question(question, result, out["language"])
+        except Exception as ex:
+            st.error("Could not answer right now. Please try again.")
+            with st.expander("Technical details"):
+                st.code(str(ex))
+            return
+        audio = None
+        try:
+            audio = speak(answer[:2400], out["language"])
+        except Exception:
+            pass  # the text answer still shows
+        out["qa"].append({"q": question, "a": answer, "audio": audio})
+
+    with st.form("ask_form", clear_on_submit=True):
+        typed = st.text_input("Type your question")
+        asked = st.form_submit_button("Ask")
+    if asked and typed.strip():
+        handle_question(typed.strip())
+
+    voice = st.audio_input("Or ask by voice")
+    if voice is not None:
+        data = voice.getvalue()
+        key = hashlib.md5(data).hexdigest()
+        if out.get("last_voice") != key:
+            out["last_voice"] = key
+            try:
+                with st.spinner("Listening..."):
+                    heard = transcribe(data, out["language"])
+            except Exception as ex:
+                heard = ""
+                st.error("Could not understand the audio. Please try again.")
+                with st.expander("Technical details"):
+                    st.code(str(ex))
+            if heard.strip():
+                handle_question(heard.strip())
+
+    for item in reversed(out["qa"]):
+        st.markdown(f"**You:** {item['q']}")
+        st.write(item["a"])
+        if item["audio"]:
+            st.audio(item["audio"], format="audio/wav")
 
     st.divider()
     if out["pdf"]:

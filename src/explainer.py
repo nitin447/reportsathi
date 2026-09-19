@@ -18,7 +18,8 @@ Rules:
 - Do not repeat what the doctor's report already says in different words; explain what it means.
 - Keep the tone calm. Do not frighten the reader.
 - key_points: include only abnormal or unclear items. Skip normal ones.
-- For imaging, ECG or pathology findings, explain what the finding means. Never say "this measures"."""
+- For imaging, ECG or pathology findings, explain what the finding means. Never say "this measures".
+- Never suggest an abnormal finding is normal, harmless or age-related unless the report itself says so. If the report says something is more than expected, say so plainly."""
 
 
 class ExplainedReport(BaseModel):
@@ -40,8 +41,11 @@ def compute_urgency(result: AnalysisResult) -> tuple[str, str]:
 
     abnormal_labs = [c for c in result.checked_values if c.status in ("low", "high")]
     abnormal_findings = [f for f in (n.findings if n else []) if f.significance == "abnormal"]
-    if abnormal_labs or abnormal_findings:
+    if abnormal_labs:
         return "routine_followup", "Some results are outside the normal range. Discuss them at your next visit."
+    if abnormal_findings:
+        return "routine_followup", ("The report describes findings that are worth reviewing with your doctor. "
+                                    "Please book a visit to go through them.")
 
     return "all_normal", "Nothing in this report is marked outside the normal range."
 
