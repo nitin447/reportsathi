@@ -5,3 +5,4 @@ load_dotenv()
 
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-3.5-flash-lite")
+SARVAM_API_KEY = os.getenv("SARVAM_API_KEY")

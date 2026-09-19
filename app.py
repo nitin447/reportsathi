@@ -7,6 +7,7 @@ import streamlit as st
 from src.explainer import explain
 from src.pdf_report import build_pdf, _range as range_text
 from src.pipeline import analyze
+from src.voice import build_spoken_script, speak
 
 st.set_page_config(page_title="ReportSathi", page_icon="🩺", layout="centered")
 
@@ -68,6 +69,16 @@ if out:
 
     st.subheader("Summary")
     st.write(e.summary)
+    if st.button("Listen to this explanation"):
+        try:
+            with st.spinner("Creating audio..."):
+                out["audio"] = speak(build_spoken_script(explained, out["language"]), out["language"])
+        except Exception as ex:
+            st.error("Could not create the audio. Check your Sarvam key and try again.")
+            with st.expander("Technical details"):
+                st.code(str(ex))
+    if out.get("audio"):
+        st.audio(out["audio"], format="audio/wav")
 
     attention = [c for c in result.checked_values if c.status in ("low", "high")]
     if attention:
@@ -79,7 +90,7 @@ if out:
                 "Printed range": range_text(c),
                 "Status": c.status.upper() + (f" ({c.severity})" if c.severity else ""),
             } for c in attention],
-            hide_index=True, use_container_width=True,
+            hide_index=True, width="stretch",
         )
 
     if result.narrative:

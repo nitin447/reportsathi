@@ -93,10 +93,14 @@ def build_pdf(result: AnalysisResult, explained: ExplainedReport, output_path: s
             ("VALIGN", (0, 0), (-1, -1), "TOP"),
         ]))
         story.append(table)
-        others = len(result.checked_values) - len(attention)
-        if others > 0:
+        normal_n = sum(1 for c in result.checked_values if c.status == "normal")
+        unjudged = [c.name for c in result.checked_values if c.status in ("unknown", "not_numeric")]
+        if normal_n or unjudged:
+            note = f"{normal_n} other value(s) were within the printed range."
+            if unjudged:
+                note += " Could not be judged (no printed range): " + ", ".join(unjudged) + "."
             story.append(Spacer(1, 3))
-            story.append(Paragraph(f"{others} other value(s) were within range or could not be judged.", small))
+            story.append(Paragraph(escape(note), small))
 
     n = result.narrative
     if n:
