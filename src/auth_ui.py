@@ -23,14 +23,14 @@ def _login_css():
         header[data-testid="stHeader"] { background: transparent; }
 
         .stApp {
-            background-color: #0a1a20;
+            background-color: #070912;
             background-image:
-                repeating-linear-gradient(90deg, rgba(45,212,191,0.10) 0px, rgba(45,212,191,0.10) 1.5px, transparent 1.5px, transparent 64px),
-                repeating-linear-gradient(0deg, rgba(45,212,191,0.10) 0px, rgba(45,212,191,0.10) 1.5px, transparent 1.5px, transparent 64px),
-                radial-gradient(circle at 20% 15%, rgba(45,212,191,0.22), transparent 55%),
-                radial-gradient(circle at 82% 30%, rgba(14,165,233,0.20), transparent 55%),
-                radial-gradient(circle at 30% 88%, rgba(52,211,153,0.16), transparent 55%),
-                radial-gradient(circle at 85% 90%, rgba(103,232,249,0.14), transparent 55%);
+                repeating-linear-gradient(90deg, rgba(94,234,212,0.05) 0px, rgba(94,234,212,0.05) 1.5px, transparent 1.5px, transparent 64px),
+                repeating-linear-gradient(0deg, rgba(94,234,212,0.05) 0px, rgba(94,234,212,0.05) 1.5px, transparent 1.5px, transparent 64px),
+                radial-gradient(circle at 20% 15%, rgba(56,189,248,0.13), transparent 45%),
+                radial-gradient(circle at 82% 30%, rgba(129,140,248,0.12), transparent 45%),
+                radial-gradient(circle at 30% 88%, rgba(45,212,191,0.10), transparent 45%),
+                radial-gradient(circle at 85% 90%, rgba(103,232,249,0.08), transparent 45%);
             background-size: 64px 64px, 64px 64px, 200% 200%, 200% 200%, 200% 200%, 200% 200%;
             animation: rsAurora 9s ease-in-out infinite;
         }
