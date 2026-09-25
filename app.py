@@ -20,10 +20,11 @@ from src.voice import build_spoken_script, speak, transcribe
 st.set_page_config(page_title="ReportSathi", page_icon="🩺", layout="centered")
 inject()
 
+init_db()
+
 if not require_login():
     st.stop()
 
-init_db()
 init_reports_table()
 user = st.session_state["user"]
 logout_button()
