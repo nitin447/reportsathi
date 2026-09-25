@@ -66,17 +66,18 @@ section[data-testid="stSidebar"] {
 section[data-testid="stSidebar"] * { color: #d7ebe8 !important; }
 section[data-testid="stSidebar"] a { color: #5eead4 !important; }
 section[data-testid="stSidebar"] .stButton button {
-    background: linear-gradient(135deg, #14b8a6, #0284c7) !important;
+    background: linear-gradient(135deg, #0f766e, #0369a1) !important;
     border: none !important;
     color: #eafffb !important;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.35) !important;
     border-radius: 10px !important;
     font-weight: 800 !important;
-    box-shadow: 0 6px 16px rgba(20,184,166,0.25) !important;
+    box-shadow: 0 6px 14px rgba(3,105,161,0.3) !important;
     transition: transform 0.15s ease, box-shadow 0.2s ease;
 }
 section[data-testid="stSidebar"] .stButton button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(20,184,166,0.35) !important;
+    box-shadow: 0 8px 18px rgba(3,105,161,0.45) !important;
 }
 
 /* sidebar brand + user card */
@@ -242,16 +243,17 @@ section[data-testid="stFileUploaderDropzone"]:hover {
 .stButton>button, .stFormSubmitButton>button, [data-testid="stFormSubmitButton"] button {
     border-radius: 12px; font-weight: 800; height: 2.9rem;
     transition: transform 0.15s ease, box-shadow 0.2s ease;
-    background: linear-gradient(135deg, #14b8a6, #0284c7) !important;
+    background: linear-gradient(135deg, #0f766e, #0369a1) !important;
     background-size: 200% 200% !important;
     animation: rsGradShift 6s ease infinite !important;
     color: #eafffb !important;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.35) !important;
     border: none !important;
-    box-shadow: 0 8px 20px rgba(20,184,166,0.3) !important;
+    box-shadow: 0 8px 18px rgba(3,105,161,0.3) !important;
 }
 .stButton>button:hover, .stFormSubmitButton>button:hover, [data-testid="stFormSubmitButton"] button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 26px rgba(20,184,166,0.4) !important;
+    box-shadow: 0 10px 22px rgba(3,105,161,0.45) !important;
 }
 @keyframes rsGradShift {
     0%   { background-position: 0% 50%; }

@@ -391,22 +391,23 @@ def _login_css():
         [data-testid="stFormSubmitButton"] button,
         [data-testid="stBaseButton-primary"],
         [data-testid="stBaseButton-secondaryFormSubmit"] {
-            background: linear-gradient(135deg, #2dd4bf, #0ea5e9) !important;
+            background: linear-gradient(135deg, #0f766e, #0369a1) !important;
             background-size: 200% 200% !important;
             animation: rsGradShift 5s ease infinite !important;
-            color: #0a0e1e !important;
+            color: #eafffb !important;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.35) !important;
             border: none !important;
             border-radius: 12px !important;
             font-family: 'Manrope', sans-serif !important;
             font-weight: 800 !important;
             height: 3rem !important;
-            box-shadow: 0 8px 28px rgba(45,212,191,0.45), 0 0 24px rgba(14,165,233,0.35) !important;
+            box-shadow: 0 8px 24px rgba(3,105,161,0.4) !important;
             transition: transform 0.15s ease, box-shadow 0.2s ease !important;
         }
         .stButton button:hover,
         [data-testid="stFormSubmitButton"] button:hover {
             transform: translateY(-2px) !important;
-            box-shadow: 0 10px 32px rgba(45,212,191,0.6), 0 0 34px rgba(14,165,233,0.5) !important;
+            box-shadow: 0 10px 28px rgba(3,105,161,0.55) !important;
         }
         @keyframes rsGradShift {
             0%   { background-position: 0% 50%; }
