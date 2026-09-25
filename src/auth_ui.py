@@ -437,7 +437,7 @@ def require_login():
         # password flow does, so the rest of the app can just read
         # st.session_state["user"] regardless of how someone signed in.
         if "user" not in st.session_state or st.session_state["user"].get("email") != st.user.email:
-            st.session_state["user"] = find_or_create_google_user(st.user.email, st.user.name)
+            st.session_state["user"] = find_or_create_google_user(st.user.name, st.user.email)
         return True
 
     _login_css()
@@ -540,12 +540,12 @@ def require_login():
                         "Log in", type="primary", use_container_width=True
                     )
                     if submitted:
-                        user = login(email, password)
-                        if user:
+                        ok, msg, user = login(email, password)
+                        if ok:
                             st.session_state["user"] = user
                             st.rerun()
                         else:
-                            st.error("Incorrect email or password. Please try again.")
+                            st.error(msg)
 
             with tab_signup:
                 with st.form("signup_form", clear_on_submit=False):

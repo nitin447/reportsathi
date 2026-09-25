@@ -5,6 +5,7 @@ from pathlib import Path
 
 import streamlit as st
 
+from src.auth import init_db
 from src.auth_ui import logout_button, require_login
 from src.explainer import explain
 from src.pdf_report import _range as range_text
@@ -22,6 +23,7 @@ inject()
 if not require_login():
     st.stop()
 
+init_db()
 init_reports_table()
 user = st.session_state["user"]
 logout_button()
